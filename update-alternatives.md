@@ -68,3 +68,33 @@ Just enter the selection number (e.g., `1` for Java 11) and press Enter to switc
 You can verify the current default version by checking the `java -version` output:
 
 `java -version`
+
+The `alternatives` command in Linux works by managing symbolic links to different versions of a program or utility. Instead of having to manually change paths in your system, `alternatives` provides a structured and easy way to switch the default version of a command that has multiple installations.
+
+***
+
+### How it Works
+
+The `alternatives` system is a part of the **Debian** and **Red Hat**-based Linux distributions. It maintains a system of symbolic links in a directory like `/etc/alternatives/`. These links point to the actual program binaries located in their respective installation directories.
+
+Here is a breakdown of the key components:
+
+1.  **Symbolic Link (`link`):** This is the user-facing command that you run from the terminal (e.g., `/usr/bin/java`). This link doesn't point directly to a binary. Instead, it points to a symbolic link in the `/etc/alternatives/` directory.
+
+2.  **Alternatives Link (`slave`):** This is the symbolic link in the `/etc/alternatives/` directory (e.g., `/etc/alternatives/java`). This link is the one that `alternatives` actively manages, and it points to the specific version of the program you have chosen.
+
+3.  **Real Path (`path`):** This is the actual location of the program's executable file (e.g., `/usr/lib/jvm/java-17-openjdk-amd64/bin/java`).
+
+
+
+***
+
+### The Management Process
+
+When you use the `update-alternatives` command, you're interacting with this system:
+
+* **Installing a Version:** The `install` command registers a new version of a program with the alternatives system. You provide the user-facing link, a name for the alternatives group, the path to the executable, and a **priority** number. Higher priority numbers are used to automatically select a default version.
+
+* **Switching Versions:** The `config` command allows you to manually choose which version of a program the alternatives link should point to. This is done through an interactive menu. When you make a selection, `alternatives` updates the symbolic link in `/etc/alternatives/` to point to the new path, effectively changing the default command.
+
+By managing the symbolic links in this centralized way, `alternatives` ensures that all related scripts and commands on your system use the correct version of the program without you having to manually change `PATH` variables or other configuration files.
