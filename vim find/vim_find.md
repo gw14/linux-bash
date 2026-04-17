@@ -1,0 +1,51 @@
+# Vim Search and Replace
+
+Vim handles search and replace through a few core commands and flags. Below are the most common ways to find and substitute text.
+
+## 1. Basic Find (Search)
+
+To find text without replacing it, use these Normal mode commands:
+
+- **Forward Search:** `/pattern` — Searches forward for the pattern. Press Enter to jump to the first match.
+- **Backward Search:** `?pattern` — Searches backward from the cursor.
+- **Next/Previous Match:** Press `n` to go to the next result or `N` for the previous one.
+- **Word Under Cursor:** Press `*` to find the next occurrence of the current word, or `#` for the previous.
+
+## 2. Find and Replace (Substitute)
+
+Substitution uses the `:s` command. The general syntax is: `:[range]s/pattern/replacement/[flags]`.
+
+| Command | Scope | Action |
+|---------|-------|--------|
+| `:s/old/new/` | Current Line | Replaces the first occurrence on the current line. |
+| `:s/old/new/g` | Current Line | Replaces all occurrences on the current line. |
+| `:%s/old/new/g` | Entire File | Replaces all occurrences in the whole document. |
+| `:%s/old/new/gc` | Entire File | Replaces all with confirmation for each match. |
+| `:5,12s/old/new/g` | Line Range | Replaces all occurrences between lines 5 and 12. |
+
+## 3. Common Flags & Variations
+
+You can append these flags to the end of your substitute command (e.g., `:%s/foo/bar/gi`):
+
+- **g (Global):** Replace all occurrences in the line, not just the first.
+- **i (Ignore Case):** Case-insensitive search.
+- **I (Case Sensitive):** Force case-sensitive search.
+- **c (Confirm):** Asks (y/n/a/q/l) for each match.
+  - y: yes
+  - n: no
+  - a: all remaining
+  - q: quit
+
+## 4. Visual Mode Selection
+
+To replace text only within a specific highlighted area:
+
+1. Enter Visual mode (press `v` or `V`) and select your text.
+2. Press `:` (the command line will automatically show `:'<,'>`).
+3. Type your substitute command: `:'<,'>s/old/new/g`.
+
+## 5. Pro Tips
+
+- **Repeat Last Substitute:** Type `&` in Normal mode to repeat the last `:s` command on the current line.
+- **Alternative Separators:** If your text contains slashes (like a URL), use a different separator like `#` or `_` to avoid escaping: `:s#http://#https://#g`.
+- **Search for Last Term:** If you just searched with `/foo`, you can leave the pattern blank in the substitute command to reuse it: `:%s//bar/g`.
